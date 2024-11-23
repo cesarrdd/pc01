@@ -40,7 +40,6 @@ export default {
   computed: {
     imageUrl() {
       const baseUrl = this.$imagenes.defaults.baseURL;
-      //console.log(baseUrl +''+this.product.poster_path);
 
       return `${baseUrl}${this.product.poster_path}`;
     },
