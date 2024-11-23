@@ -1,14 +1,14 @@
 <template>
   <q-card class="product-card">
     <q-card-section>
-      <q-img :src="product.imageUrl" alt="Imagen del producto" />
+      <q-img :src="imageUrl" alt="Imagen del producto" />
     </q-card-section>
     <q-card-section>
-      <q-card-title>{{ product.description }}</q-card-title>
-      <div class="text-h6 font-weight-bold">{{ product.price }}</div>
-      <div class="text-center">
-        <q-btn color="primary" label="Agregar"></q-btn>
-      </div>
+      <q-card-title class="text-h6 font-weight-bold">{{
+        product.title
+      }}</q-card-title>
+      <div>Calificación Promedio: {{ product.vote_average }}</div>
+      <div>Número de Votos: {{ product.vote_count }}</div>
     </q-card-section>
   </q-card>
 </template>
@@ -36,6 +36,14 @@ export default {
     return {
       urlImage: "https://gebelesebeti.ge/front/asset/img/default-product.png",
     };
+  },
+  computed: {
+    imageUrl() {
+      const baseUrl = this.$imagenes.defaults.baseURL;
+      //console.log(baseUrl +''+this.product.poster_path);
+
+      return `${baseUrl}${this.product.poster_path}`;
+    },
   },
 };
 </script>

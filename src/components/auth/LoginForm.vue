@@ -49,7 +49,8 @@ export default {
       console.log("Click en el boton de inici de sesión");
       console.log("Valor del email: " + this.emailValue);
 
-      let endpointLogin = "/api/User/SignIn";
+      let endpointLogin = "/api/v1/user/signin";
+
       let user = { email: this.emailValue, password: this.pwdValue };
 
       this.$api
@@ -66,12 +67,12 @@ export default {
             timeout: 5000,
           });
 
-          this.$router.push("/dashboard");
+          this.$router.push("/dashboard/product");
         })
         .catch((error) => {
           //Ocurrió un error
           this.$q.notify({
-            message: "Ocurrió un error",
+            message: "Las credenciales no son las correctas",
             color: "negative",
             position: "top",
             timeout: 5000,

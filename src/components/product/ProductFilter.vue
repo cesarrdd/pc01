@@ -1,23 +1,24 @@
 <template>
   <h6>Filtros</h6>
   <div class="category-filter">
-    <q-select label="Categoría" v-model="model" filled :options="categories" />
-  </div>
-  <div class="price-filter">
-    <label>Rango de precios</label>
-    <q-input
-      class="precios"
-      v-model="minimo"
+    <q-select
+      label="Idioma"
+      v-model="categorySelected"
       filled
-      type="number"
-      label="Mínimo"
+      :options="categories"
+      option-value="id"
+      option-label="description"
+      @update:model-value="onChange"
     />
-    <q-input
-      class="precios"
-      v-model="maximo"
+    ----
+    <q-select
+      label="Adulto"
+      v-model="adultoSelected"
       filled
-      type="number"
-      label="Máximo"
+      :options="adulto"
+      option-value="id"
+      option-label="description"
+      @update:model-value="onChange2"
     />
   </div>
 </template>
@@ -27,13 +28,36 @@
 <script>
 export default {
   name: "ProductFilter",
+  emits: ["categoriaCambiada", "adultoCambiada"],
   data() {
     return {
       minimo: 0,
       maximo: 0,
       model: null,
-      categories: ["Celulares", "Televisores", "Laptops"],
+      categories: [
+        { id: "es", description: "Español" },
+        { id: "en", description: "Ingles" },
+      ],
+      adulto: [
+        { id: "true", description: "Si" },
+        { id: "false", description: "No" },
+      ],
+      categorySelected: null,
+      adultoSelected: null,
     };
+  },
+  mounted() {
+    //this.cargarCategorias();
+  },
+  methods: {
+    onChange(value) {
+      console.log("El valor seleccionado es: ", value.id);
+      this.$emit("categoriaCambiada", value.id);
+    },
+    onChange2(value) {
+      console.log("El valor seleccionado Adulto es: ", value.id);
+      this.$emit("adultoCambiada", value.id);
+    },
   },
 };
 </script>
