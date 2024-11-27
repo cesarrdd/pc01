@@ -11,6 +11,7 @@ import axios from "axios";
 const api = axios.create({ baseURL: "http://68.183.142.21" });
 const api_peliculas = axios.create({ baseURL: "https://api.themoviedb.org" });
 const imagenes = axios.create({ baseURL: "https://image.tmdb.org/t/p/w500" });
+const api_nasa = axios.create({ baseURL: "https://api.nasa.gov" });
 
 //const api3 = axios.create({ baseURL: ": https://api.themoviedb.org" });
 
@@ -24,6 +25,7 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api;
   app.config.globalProperties.$api_peliculas = api_peliculas;
   app.config.globalProperties.$imagenes = imagenes;
+  app.config.globalProperties.$api_nasa = api_nasa;
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 });
@@ -31,3 +33,4 @@ export default boot(({ app }) => {
 export { api };
 export { api_peliculas };
 export { imagenes };
+export { api_nasa };

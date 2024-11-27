@@ -1,14 +1,12 @@
 <template>
   <q-card class="product-card">
     <q-card-section>
-      <q-img :src="imageUrl" alt="Imagen del producto" />
+      <q-img :src="product.url" alt="Imagen del producto" />
     </q-card-section>
     <q-card-section>
-      <q-card-title class="text-h6 font-weight-bold">{{
-        product.title
-      }}</q-card-title>
-      <div>Calificación Promedio: {{ product.vote_average }}</div>
-      <div>Número de Votos: {{ product.vote_count }}</div>
+      <h6 class="text-h6 font-weight-bold">{{ product.title }}</h6>
+      <div>Fecha: {{ product.date }}</div>
+      <div>Version: {{ product.service_version }}</div>
     </q-card-section>
   </q-card>
 </template>
@@ -41,7 +39,7 @@ export default {
     imageUrl() {
       const baseUrl = this.$imagenes.defaults.baseURL;
 
-      return `${baseUrl}${this.product.poster_path}`;
+      return `${baseUrl}${this.product.url}`;
     },
   },
 };

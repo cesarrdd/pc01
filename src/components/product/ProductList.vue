@@ -1,5 +1,5 @@
 <template>
-  <h5>Listado de Peliculas</h5>
+  <h5>Listado de Nasa</h5>
   <div class="product-list">
     <div class="product-grid">
       <div
@@ -30,32 +30,8 @@ export default {
   computed: {
     filtrarProductoPorCategoria() {
       return this.products.filter(
-        (product) => product.original_language === this.categoriaFiltrada
+        (product) => product.media_type === this.selectedCategory
       );
-      //this.cargarProductos(this.categoriaFiltrada);
-      /*
-      return this.products.filter((product) => {
-        const matchesLanguage =
-          product.original_language === this.categoriaFiltrada;
-        const matchesAdulto = product.adult === this.adultoFiltrada;
-        //this.cargarProductos(this.categoriaFiltrada);
-
-        return matchesLanguage && matchesAdulto;
-      });
-      */
-
-      /*
-      if (Array.isArray(this.products)) {
-        const filtrados = this.products.filter(
-          (product) => product.original_language === this.categoriaFiltrada
-        );
-        console.log("Productos filtrados:", filtrados);
-        return filtrados;
-      } else {
-        console.error("this.products no es un arreglo:", this.products);
-        return [];
-      }
-    */
     },
   },
   props: {
@@ -63,45 +39,66 @@ export default {
       type: String,
       default: null,
     },
-    adultoFiltrada: {
+    fechaInicio: {
+      type: String,
+      default: null,
+    },
+    fechaFin: {
       type: String,
       default: null,
     },
   },
   data() {
     return {
+      selectedCategory: "image",
       products: [],
+      fecha1: "2024-11-01",
+      fecha2: "2024-11-26",
     };
   },
   mounted() {
     this.cargarProductos();
   },
+  watch: {
+    // Watch para detectar cambios en las fechas
+    fechaInicio(newFechaInicio) {
+      this.fecha1 = newFechaInicio;
+      //console.log("Nueva fecha de inicio:", newFechaInicio);
+      this.cargarProductos();
+      // Aquí puedes hacer algo cuando cambie la fecha de inicio, si es necesario
+    },
+    fechaFin(newFechaFin) {
+      this.fecha2 = newFechaFin;
+      this.cargarProductos();
+      //console.log("Nueva fecha de fin:", newFechaFin);
+      // Aquí puedes hacer algo cuando cambie la fecha de fin, si es necesario
+    },
+  },
   methods: {
     cargarProductos() {
+      console.log(this.fecha1);
+
       //let endpointURL = "/api/product";
-      let endpointURL = "/3/discover/movie";
-
-      //if (item != "") {
-      //  endpointURL = "/3/discover/movie?language=" + item;
-      //}
-
-      //  /3/discover/movie?include_adult=false&include_video=false&language=es-PE&page=1&sort_by=popularity.desc'
-
-      //let token = JSON.parse(localStorage.getItem("userData")).data.token;
-      let token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4N2MxYTQ2ZWRiOWU3NDYwYjFhODYzY2JhY2VkZmI2NiIsIm5iZiI6MTczMjM3MjkzOS4xODU5NCwic3ViIjoiNjc0MWU4OWYxY2Q4YzI0M2U2YmU4NjJhIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.VrIEKBbr-RqEKR35psrjLkElKQrN9EVhfEq9jRR8zD8";
+      let token = "Kq7QlegRS4l0pL1wsHv3iGAj5lWjNOoBbjaUsm2l";
+      let endpointURL =
+        "/planetary/apod?api_key=" +
+        token +
+        "&start_date=" +
+        this.fecha1 +
+        "&end_date=" +
+        this.fecha2;
 
       let headers = {
         headers: {
           Authorization: "Bearer " + token,
         },
       };
-      this.$api_peliculas
-        .get(endpointURL, headers)
+      this.$api_nasa
+        .get(endpointURL, "")
         .then((response) => {
-          console.log(endpointURL);
-          console.log(JSON.stringify(response));
-          this.products = response.data.results;
+          //console.log(endpointURL);
+          //console.log(JSON.stringify(response));
+          this.products = response.data;
           //console.log("RESULTS: " + JSON.stringify(this.products));
         })
         .catch((error) => {
